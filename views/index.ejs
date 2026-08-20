@@ -3,5 +3,23 @@
     <head></head>
     <body>
         This is index
+        <% if (logged) { %>
+            <p>your username: <%= user.username %></p>
+            <p>your id: <%= user.id %></p>
+            <a href="/member">
+                <button>member</button>
+            </a>
+            <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        <% } else { %>
+            <a href="/register">
+                <button>register</button>
+            </a>
+            <a href="/login">
+                <button>login</button>
+            </a>
+        <% } %>
     </body>
+    
 </html>
