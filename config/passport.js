@@ -4,11 +4,9 @@
 
 const fs = require('fs');
 const { ExtractJwt, Strategy } = require('passport-jwt');
-const jwtStrategy = require('passport-jwt').Strategy
 const path = require('path');
-const db = require('./queries')
+const db = require('../db/queries')
 
-// Not provided
 const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
 
@@ -29,9 +27,19 @@ const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
 //     }
 // }
 
+function extractToken (req, res) {
+    const cookie = req.cookies
+
+    if (cookie) {
+        return cookie.token
+    } else {
+        return null
+    }
+}
+
 
 const options = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: extractToken,
     secretOrKey: PUB_KEY,
     algorithms: ['RS256']
 };
