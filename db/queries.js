@@ -29,8 +29,28 @@ async function addUser(username, hash, salt, admin) {
     return rows[0]
 }
 
+async function turnAdmin(userId) {
+    const { rows } = await pool.query(`
+        UPDATE users
+        SET admin = true
+        WHERE id = $1 
+        RETURNING *;    
+    `, [userId])
+}
+
+async function turnMember(userId) {
+    const { rows } = await pool.query(`
+        UPDATE users
+        SET member = true
+        WHERE id = $1 
+        RETURNING *;    
+    `, [userId])
+}
+
 module.exports = {
     findUser,
     findById,
-    addUser
+    addUser,
+    turnAdmin,
+    turnMember
 }
