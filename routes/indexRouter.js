@@ -11,10 +11,12 @@ indexRouter.get('/', midware.optAuthCheck, indexController.getMainPage)
 indexRouter.get('/register', indexController.getRegister)
 indexRouter.get('/login', indexController.getLogin)
 indexRouter.get('/member', passport.authenticate('jwt', { session: false }), indexController.getMemberCheck)
+indexRouter.get('/admin', passport.authenticate('jwt', { session: false }), indexController.getAdminCheck)
 
 indexRouter.post('/register', indexController.postRegister)
 indexRouter.post('/login', indexController.postLogin)
 indexRouter.post('/member', passport.authenticate('jwt', { session: false }),  indexController.postMemberCheck)
 indexRouter.post('/logout', indexController.postLogout)
+indexRouter.post('/admin', passport.authenticate('jwt', { session: false }),  indexController.postAdminCheck)
 
 module.exports = indexRouter
