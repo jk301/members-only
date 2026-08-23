@@ -4,6 +4,8 @@ const pool = require('./db')
 
 // just a template, subject to change
 
+// Users
+
 async function findUser (username) {
     const { rows } = await pool.query(`
         SELECT * FROM users 
@@ -20,12 +22,12 @@ async function findById(userId) {
     return rows[0]
 }
 
-async function addUser(username, hash, salt, admin) {
+async function addUser(username, hash) {
     const { rows } = await pool.query(`
-        INSERT INTO users (username, hash, salt, admin) 
-        VALUES ($1, $2, $3, $4) 
+        INSERT INTO users (username, hash) 
+        VALUES ($1, $2) 
         RETURNING *;
-    `, [username, hash, salt, admin])
+    `, [username, hash])
     return rows[0]
 }
 
@@ -47,10 +49,41 @@ async function turnMember(userId) {
     `, [userId])
 }
 
+// Messages
+
+async function getAllMessage() {
+    const { rows } = await pool.query (`
+        SELECT * FROM messages;    
+    `)
+    return rows
+}
+
+async function addMessage(username, title, message) {
+    const { rows } = await pool.query(`
+        INSERT INTO messages (username, title, message) 
+        VALUES ($1, $2, $3) 
+        RETURNING *;
+    `, [username, title, message])
+    return rows[0]
+}
+
+async function deleteMessage (messageId) {
+    const { rows } = await pool.query(`
+        DELETE FROM messages 
+        WHERE messageid = $1 
+        RETURNING * ;    
+    `, [messageId])
+    return rows[0]
+}
+
+
 module.exports = {
     findUser,
     findById,
     addUser,
     turnAdmin,
-    turnMember
+    turnMember,
+    getAllMessage,
+    addMessage,
+    deleteMessage
 }
