@@ -7,15 +7,25 @@ require('dotenv').config()
 
 // REMEMBER TO REMOVE CONSOLE LOGS
 
-function getMainPage (req, res) {
+async function getMainPage (req, res) {
     const exist = req.user
+    console.log(exist)
 
-    if (exist) {
-        res.render('index', { logged: true, user: exist })
-    } else {
-        res.render('index', { logged: false, user: null })
+    if (!exist) {
+        const messages = await db.getAllMessage()
+        return res.render('index', { logged: false, messages: messages });
     }
-    
+
+    const messages = await db.getAllMessage()
+
+    if (exist.admin === true) {
+        return res.render('index', { logged: true, user: exist, messages: messages, admin: true })
+    } else if (exist.member === true) {
+        return res.render('index', { logged: true, user: exist, messages: messages, member: true })
+    } else {
+        return res.render('index', { logged: true, user: exist, messages: messages })
+    }
+
 }
 
 function getRegister (req, res) {
@@ -34,14 +44,18 @@ function getAdminCheck (req, res) {
     res.render('admin')
 }
 
+function getMessage (req, res) {
+    res.render('message')
+}
+
 async function postRegister (req, res) {
-    // addUser(username, hash, salt, admin)
+    // addUser(username, hash)
     const password = req.body.password
     const username = req.body.username
 
     const hash = await utils.passGen(password)
 
-    const result = await db.addUser(username, hash, 12, false)
+    const result = await db.addUser(username, hash)
     if (result) {
         res.redirect('/login')
     } else {
@@ -126,6 +140,34 @@ async function postAdminCheck (req, res) {
     }
 }
 
+async function postMessage (req, res) {
+    const username = req.user.username
+    const title = req.body.title
+    const message = req.body.message
+
+    const result = await db.addMessage(username, title, message)
+
+    console.log(title, message)
+    res.redirect('/')
+}
+
+async function deleteMessage(req, res) {
+  const id = req.params.id;
+
+  try {
+    const result = await db.deleteMessage(id);
+    if (!result) {
+      console.log("no message found with id -> " + id);
+      return res.redirect('/');
+    }
+    console.log("message deleted with id -> " + result.messageid);
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting message');
+  }
+}
+
 
 
 module.exports = {
@@ -134,9 +176,13 @@ module.exports = {
     getLogin,
     getMemberCheck,
     getAdminCheck,
+    getMessage,
+
     postRegister,
     postLogin,
     postLogout,
     postMemberCheck,
-    postAdminCheck
+    postAdminCheck,
+    postMessage,
+    deleteMessage
 }
