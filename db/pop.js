@@ -5,22 +5,21 @@
 
 // user table
 
-// CREATE TABLE users (
+// CREATE TABLE IF NOT EXISTS users (
 //   id SERIAL PRIMARY KEY,
 //   username VARCHAR(255) UNIQUE NOT NULL,
 //   hash VARCHAR(255) NOT NULL,
-//   salt VARCHAR(255) NOT NULL (non needed anymore because of using bcrypt),
-//   admin bool,
-//   member bool
+//   admin BOOL DEFAULT FALSE,
+//   member BOOL DEFAULT FALSE
 // );
 
 
 // message table
 
-// CREATE TABLE messages (
+// CREATE TABLE IF NOT EXISTS messages (
 //   messageid SERIAL PRIMARY KEY,
-//   userid NUMBER NOT NULL (foreign key),
+//   username VARCHAR(255) NOT NULL REFERENCES users(username) ON UPDATE CASCADE ON DELETE CASCADE,
 //   title VARCHAR(255) NOT NULL,
 //   message VARCHAR(255) NOT NULL,
-//   timestamp TIMESTAMPTZ ?
+//   time TIMESTAMPTZ DEFAULT NOW()
 // );
