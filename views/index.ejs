@@ -6,22 +6,90 @@
         <% if (logged) { %>
             <p>your username: <%= user.username %></p>
             <p>your id: <%= user.id %></p>
+            <p>Member ? <%= user.member %></p>
+            <p>Admin ? <%= user.admin %></p>
             <a href="/member">
-                <button>member</button>
+                <button>Member</button>
+            </a>
+            <a href="/message">
+                <button>Message</button>
             </a>
             <a href="/admin">
-                <button>admin</button>
+                <button>Admin</button>
             </a>
             <form action="/logout" method="POST">
                 <button type="submit">Logout</button>
             </form>
+
+            <% if (typeof admin !== 'undefined' && admin) { %>
+                <div class="msg-div-container">
+                    <% if (typeof messages !== 'undefined' && messages) { %>
+                        <% messages.forEach ((msg) => { %>
+                            <div class="msg-card">
+                                <h3><%= msg.title  %></h3>
+                                <p><%= msg.message  %></p>
+                                <div>
+                                    <p><%= msg.time %></p>
+                                    <h4><%= msg.username %></h4>
+                                </div>
+                                <form action="/messages/delete/<%= msg.messageid %>" method="POST">
+                                    <button type="submit">Delete message</button>
+                                </form>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+            <% } else if (typeof member !== 'undefined' && member) { %>
+                <div class="msg-div-container">
+                    <% if (typeof messages !== 'undefined' && messages) { %>
+                        <% messages.forEach ((msg) => { %>
+                            <div class="msg-card">
+                                <h3><%= msg.title  %></h3>
+                                <p><%= msg.message  %></p>
+                                <div>
+                                    <p><%= msg.time %></p>
+                                    <h4><%= msg.username %></h4>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <div class="msg-div-container">
+                    <% if (typeof messages !== 'undefined' && messages) { %>
+                        <% messages.forEach ((msg) => { %>
+                            <div class="msg-card">
+                                <h3><%= msg.title  %></h3>
+                                <p><%= msg.message  %></p>
+                                <div>
+                                    <p><%= msg.time %></p>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+            <% } %>
+
         <% } else { %>
             <a href="/register">
-                <button>register</button>
+                <button>Register</button>
             </a>
             <a href="/login">
-                <button>login</button>
+                <button>Login</button>
             </a>
+            <div class="msg-div-container">
+                    <% if (typeof messages !== 'undefined' && messages) { %>
+                        <% messages.forEach ((msg) => { %>
+                            <div class="msg-card">
+                                <h3><%= msg.title  %></h3>
+                                <p><%= msg.message  %></p>
+                                <div>
+                                    <p><%= msg.time %></p>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
         <% } %>
     </body>
     
