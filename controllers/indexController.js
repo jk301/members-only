@@ -2,6 +2,7 @@
 
 const db = require('../db/queries')
 const utils = require('../lib/utils')
+const dayJs = require('dayjs')
 
 require('dotenv').config()
 
@@ -12,11 +13,19 @@ async function getMainPage (req, res) {
     console.log(exist)
 
     if (!exist) {
-        const messages = await db.getAllMessage()
+        let messages = await db.getAllMessage()
+        messages.forEach(msg => {
+            const newTime = dayJs(msg.time).format('MMM D, YYYY [at] h:mm A')
+            msg.time = newTime
+        })
         return res.render('index', { logged: false, messages: messages });
     }
 
     const messages = await db.getAllMessage()
+    messages.forEach(msg => {
+        const newTime = dayJs(msg.time).format('MMM D, YYYY [at] h:mm A')
+        msg.time = newTime
+    })
 
     if (exist.admin === true) {
         return res.render('index', { logged: true, user: exist, messages: messages, admin: true })
@@ -101,9 +110,9 @@ async function postLogin (req, res) {
     const user = await db.findUser(username)
 
     if (!user) { 
-        console.log('username dont exist')
-        res.redirect('/login')
-        return
+        return res.render('login', {
+            alerts: ["The username doesn't exist."]
+        })
     }
 
     const isValid = await utils.passValid(password, user.hash)
@@ -116,8 +125,10 @@ async function postLogin (req, res) {
         return 
     } else {
         console.log('password is incorrect')
-        res.redirect('/login')
-        return
+        return res.render('login', {
+            alerts: ["The password isn't correct."], 
+            username
+        })
     }
     
 }
@@ -143,9 +154,9 @@ async function postMemberCheck (req, res) {
             throw err
         }
     } else {
-        console.log('wrong member password')
-        res.render('member', { message: 'Wrong password' })
-        return
+        return res.render('member', { 
+            alerts: ['Wrong password'] 
+        })
     }
 }
 
@@ -161,12 +172,12 @@ async function postAdminCheck (req, res) {
             res.redirect('/')
         } catch (err) {
             res.redirect('/')
-            throw err
+            console.error(err)
         }
     } else {
-        console.log('wrong admin password')
-        res.render('admin', { message: 'Wrong password' })
-        return
+        return res.render('admin', { 
+            alerts: ['Wrong password'] 
+        })
     }
 }
 
