@@ -110,7 +110,7 @@ async function postLogin (req, res) {
     
     if (isValid) {
         const jwt = await utils.issueJWT(user)
-        res.cookie('token', jwt.token, { httpOnly: true, sameSite: 'lax' })
+        res.cookie('token', jwt.token, { httpOnly: true, sameSite: 'lax', maxAge: 24 * 60 * 60 * 1000 })
         console.log('login successful, jwt issued')
         res.redirect('/')
         return 
