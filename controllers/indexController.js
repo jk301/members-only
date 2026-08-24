@@ -51,17 +51,47 @@ function getMessage (req, res) {
 async function postRegister (req, res) {
     // addUser(username, hash)
     const password = req.body.password
+    const cnfrm_pass = req.body.cnfrm_pass
     const username = req.body.username
 
-    const hash = await utils.passGen(password)
-
-    const result = await db.addUser(username, hash)
-    if (result) {
-        res.redirect('/login')
-    } else {
-        console.log('something went wrong')
-        res.redirect('/register')
+    if (password !== cnfrm_pass) {
+        return res.render('register', {
+            alerts: ["Passwords don't match."],
+            username,
+            password,
+            cnfrm_pass
+        })
     }
+
+    try {
+        const hash = await utils.passGen(password)
+
+        const result = await db.addUser(username, hash)
+
+        if (result) {
+            return res.redirect('/login')
+        } else {
+            console.log("couldn't add user")
+            return res.render('register', {
+                alerts: ["Couldn't add user for some reason"]
+            })
+        }
+
+    } catch (err) {
+        console.error(err)
+
+        let msg = 'Something went wrong'
+
+        if (err.code === "23505") {
+            msg = 'Username is already taken.'
+        }
+
+        return res.render('register', {
+            alerts: [msg],
+            username
+        })
+    }
+
 }
 
 async function postLogin (req, res) {
