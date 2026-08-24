@@ -53,7 +53,8 @@ async function turnMember(userId) {
 
 async function getAllMessage() {
     const { rows } = await pool.query (`
-        SELECT * FROM messages;    
+        SELECT * FROM messages 
+        ORDER BY messageid DESC;    
     `)
     return rows
 }
@@ -63,7 +64,7 @@ async function addMessage(username, title, message) {
         INSERT INTO messages (username, title, message) 
         VALUES ($1, $2, $3) 
         RETURNING *;
-    `, [username, title, message])
+    `, [username0, title, message])
     return rows[0]
 }
 
