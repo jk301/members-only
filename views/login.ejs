@@ -3,9 +3,26 @@
     <head></head>
     <body>
         <h1>This is login</h1>
+
+        <div class="alerts-container">
+            <% if (typeof alerts !== 'undefined' && alerts) { %>
+                <ul>
+                    <% alerts.forEach ( alert  => { %>
+                        <li> <%= alert %> </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
+
         <form action="" method="POST">
             <label for="username">
-                <input type="text" name="username" id="username" placeholder="Username here" required>
+                <input 
+                    type="text" 
+                    value="<%= typeof username !== 'undefined' ? username : '' %>" 
+                    name="username" 
+                    id="username" 
+                    placeholder="Username here" 
+                    required>
             </label>
             <label for="password">
                 <input type="text" name="password" placeholder="password here" required>
