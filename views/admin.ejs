@@ -3,12 +3,20 @@
     <head></head>
     <body>
         <h1>This is admin check</h1>
-        <% if (typeof message !== 'undefined' && message) { %>
-            <p><%= message %></p>
-        <% } %> 
+
+        <div class="alerts-container">
+            <% if (typeof alerts !== 'undefined' && alerts) { %>
+                <ul>
+                    <% alerts.forEach ( alert  => { %>
+                        <li> <%= alert %> </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
+
         <form action="/admin" method="POST">
             <label for="admin-pass">
-                (passed the jwt auth)
+                Admin password : 
                 <input type="password" name="adminPass" id="admin-pass" required>
             </label>
             <button type="submit">Submit</button>
