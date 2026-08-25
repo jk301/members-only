@@ -28,5 +28,6 @@ app.use('/', indexRouter)
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, (err) => {
+    console.log(`Running on ${PORT}`)
     if (err) throw err
 })
