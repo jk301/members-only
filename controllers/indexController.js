@@ -6,11 +6,9 @@ const dayJs = require('dayjs')
 
 require('dotenv').config()
 
-// REMEMBER TO REMOVE CONSOLE LOGS
-
 async function getMainPage (req, res) {
     const exist = req.user
-    console.log(exist)
+
 
     if (!exist) {
         let messages = await db.getAllMessage()
@@ -80,14 +78,12 @@ async function postRegister (req, res) {
         if (result) {
             return res.redirect('/login')
         } else {
-            console.log("couldn't add user")
             return res.render('register', {
                 alerts: ["Couldn't add user for some reason"]
             })
         }
 
     } catch (err) {
-        console.error(err)
 
         let msg = 'Something went wrong'
 
@@ -120,11 +116,9 @@ async function postLogin (req, res) {
     if (isValid) {
         const jwt = await utils.issueJWT(user)
         res.cookie('token', jwt.token, { httpOnly: true, sameSite: 'lax', maxAge: 24 * 60 * 60 * 1000 })
-        console.log('login successful, jwt issued')
         res.redirect('/')
         return 
     } else {
-        console.log('password is incorrect')
         return res.render('login', {
             alerts: ["The password isn't correct."], 
             username
@@ -141,12 +135,10 @@ function postLogout (req, res) {
 async function postMemberCheck (req, res) {
     const memPass = req.body.memPass
     const userId = req.user.id
-    console.log(memPass, userId)
 
     if (memPass === process.env.MEMPASS) {
         try {
             const user = await db.turnMember(userId)
-            console.log(`user turned member -> ` +  req.user.username)
             res.redirect('/')
             return 
         } catch (err) {
@@ -163,16 +155,13 @@ async function postMemberCheck (req, res) {
 async function postAdminCheck (req, res) {
     const adminPass = req.body.adminPass
     const userId = req.user.id
-    console.log(adminPass, userId)
 
     if (adminPass === process.env.ADMINPASS) {
         try {
             const user = await db.turnAdmin(userId)
-            console.log(`user turned admin -> `, req.user.username)
             res.redirect('/')
         } catch (err) {
             res.redirect('/')
-            console.error(err)
         }
     } else {
         return res.render('admin', { 
@@ -188,7 +177,6 @@ async function postMessage (req, res) {
 
     const result = await db.addMessage(username, title, message)
 
-    console.log(title, message)
     res.redirect('/')
 }
 
@@ -198,13 +186,10 @@ async function deleteMessage(req, res) {
   try {
     const result = await db.deleteMessage(id);
     if (!result) {
-      console.log("no message found with id -> " + id);
       return res.redirect('/');
     }
-    console.log("message deleted with id -> " + result.messageid);
     res.redirect('/');
   } catch (err) {
-    console.error(err);
     res.status(500).send('Error deleting message');
   }
 }
