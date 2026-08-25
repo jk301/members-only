@@ -64,7 +64,7 @@ async function addMessage(username, title, message) {
         INSERT INTO messages (username, title, message) 
         VALUES ($1, $2, $3) 
         RETURNING *;
-    `, [username0, title, message])
+    `, [username, title, message])
     return rows[0]
 }
 
