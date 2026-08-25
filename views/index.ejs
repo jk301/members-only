@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="index.css">
+    </head>
     <body>
         <%- include('./partials/navbar') %>
         <% if (logged) { %>
@@ -9,11 +11,11 @@
                     <% if (typeof messages !== 'undefined' && messages) { %>
                         <% messages.forEach ((msg) => { %>
                             <div class="msg-card">
-                                <h3><%= msg.title  %></h3>
+                                <h2><%= msg.title  %></h2>
                                 <p><%= msg.message  %></p>
-                                <div>
+                                <div class="msg-card-detail">
                                     <p><%= msg.time %></p>
-                                    <h4><%= msg.username %></h4>
+                                    <h3><%= msg.username %></h3>
                                 </div>
                                 <form action="/messages/delete/<%= msg.messageid %>" method="POST">
                                     <button type="submit">Delete message</button>
@@ -27,9 +29,9 @@
                     <% if (typeof messages !== 'undefined' && messages) { %>
                         <% messages.forEach ((msg) => { %>
                             <div class="msg-card">
-                                <h3><%= msg.title  %></h3>
+                                <h2><%= msg.title  %></h2>
                                 <p><%= msg.message  %></p>
-                                <div>
+                                <div class="msg-card-detail">
                                     <p><%= msg.time %></p>
                                     <h4><%= msg.username %></h4>
                                 </div>
@@ -43,7 +45,7 @@
                     <% if (typeof messages !== 'undefined' && messages) { %>
                         <% messages.forEach ((msg) => { %>
                             <div class="msg-card">
-                                <h3><%= msg.title  %></h3>
+                                <h2><%= msg.title  %></h2>
                                 <p><%= msg.message  %></p>
                             </div>
                         <% }) %>
@@ -57,7 +59,7 @@
                 <% if (typeof messages !== 'undefined' && messages) { %>
                     <% messages.forEach ((msg) => { %>
                         <div class="msg-card">
-                            <h3><%= msg.title  %></h3>
+                            <h2><%= msg.title  %></h2>
                             <p><%= msg.message  %></p>
                         </div>
                     <% }) %>

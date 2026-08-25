@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="message.css">
+    </head>
     <body>
         <h1>This is login</h1>
 
-        <div class="alerts-container">
-            <% if (typeof alerts !== 'undefined' && alerts) { %>
+        <% if (typeof alerts !== 'undefined' && alerts) { %>
+            <div class="alerts-container">
                 <ul>
                     <% alerts.forEach ( alert  => { %>
                         <li> <%= alert %> </li>
                     <% }) %>
                 </ul>
-            <% } %>
-        </div>
+            </div>
+        <% } %>
 
         <form action="" method="POST">
             <label for="username">
+                Username
                 <input 
                     type="text" 
                     value="<%= typeof username !== 'undefined' ? username : '' %>" 
@@ -25,9 +28,13 @@
                     required>
             </label>
             <label for="password">
+                Password
                 <input type="text" name="password" placeholder="password here" required>
             </label>
             <button type="submit">Submit</button>
         </form>
+        <a href="/">
+            <button>Go Home</button>
+        </a>
     </body>
 </html>

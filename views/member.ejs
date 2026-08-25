@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="message.css">
+    </head>
     <body>
         <h1>This is member check</h1>
 
-        <div class="alerts-container">
-            <% if (typeof alerts !== 'undefined' && alerts) { %>
+        <% if (typeof alerts !== 'undefined' && alerts) { %>
+            <div class="alerts-container">
                 <ul>
                     <% alerts.forEach ( alert  => { %>
                         <li> <%= alert %> </li>
                     <% }) %>
                 </ul>
-            <% } %>
-        </div>
+            </div>
+        <% } %>
 
         <form action="/member" method="POST">
             <label for="mem-pass">

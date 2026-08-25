@@ -1,0 +1,72 @@
+
+nav {
+    background-color: #285A48;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+
+    position: sticky;
+    z-index: 10;
+    top: 0;
+
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    margin-right: auto;
+    color: black;
+}
+
+.nav-user-details {
+    display: flex;
+    color: black;
+    flex-direction: column;
+    margin-right: 60px;
+}
+
+.nav-user-details > p {
+    margin: 0;
+}
+
+.nav-user-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.nav-user-buttons > a > button, .nav-user-buttons > form > button {
+    border: none;
+	padding: 0;
+    cursor: pointer;
+	outline: inherit;
+
+    background-color: rgb(55, 156, 122);
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 15px;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+}
+.nav-user-buttons > a > button:hover {
+    background-color: rgb(31, 104, 79);
+    color: white;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.nav-user-buttons > form > button:hover {
+    background-color: rgb(204, 1, 1);
+    color: white;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

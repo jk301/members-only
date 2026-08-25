@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="navbar.css">
+    </head>
     <nav>
-        <h1>Only-members hehe.</h1>
+        <h1>Only-members</h1>
         <% if (logged) { %>
             <div class="nav-user-details">
-                <p>Welcome <%= user.username %></p>
-                <p>A Member ? <%= user.member ? 'yes' : 'no' %></p>
-                <p>An Admin ? <%= user.admin ? 'yes' : 'no' %></p>
+                <h2>Welcome <%= user.username %></h2>
+                <p><%= user.member ? 'Member ✔' : '' %></p>
+                <p><%= user.admin ? 'Admin ✔' : '' %></p>
             </div>
             <div class="nav-user-buttons">
-                <a href="/member">
-                    <button>Member</button>
-                </a>
+                <% if (!user.member) { %>
+                    <a href="/member">
+                        <button>Become a member</button>
+                    </a>
+                <% } %>
+                
                 <a href="/message">
-                    <button>Message</button>
+                    <button>Create a message</button>
                 </a>
-                <a href="/admin">
-                    <button>Admin</button>
-                </a>
+                <% if (!user.admin) { %>
+                    <a href="/admin">
+                        <button>Admin ?</button>
+                    </a>
+                <% } %>
                 <form action="/logout" method="POST">
                     <button type="submit">Logout</button>
                 </form>
@@ -26,7 +33,7 @@
 
         <% } else { %>
 
-            <div class="new-nav">
+            <div class="nav-user-buttons">
                 <a href="/register">
                     <button>Register</button>
                 </a>
