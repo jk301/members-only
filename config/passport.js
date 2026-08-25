@@ -7,8 +7,9 @@ const { ExtractJwt, Strategy } = require('passport-jwt');
 const path = require('path');
 const db = require('../db/queries')
 
-const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
-const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
+require('dotenv').config()
+
+const PUB_KEY = process.env.PUB_KEY
 
 // const passportJWTOptions = {
 //     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

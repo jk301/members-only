@@ -5,8 +5,7 @@ const db = require('../db/queries')
 const path = require('path')
 const fs = require('fs')
 
-const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
-const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
+const PUB_KEY = process.env.PUB_KEY
 
 async function optAuthCheck (req, res, next) {
     const exist = req.cookies.token
